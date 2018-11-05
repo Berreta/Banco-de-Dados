@@ -48,3 +48,14 @@ WHERE   Ed.Código = '020649'
 	and Co.Código_Período = P.Código_Período
 	and P.Código_Período = B.Código_Período 
 	and P.Código_Período = '2018/2'
+	
+-- Funcionando
+select C.Código, C.Prenome, C.Sobrenome
+from Candidato C where C.Código in(
+	select CE.Código_Convocado
+	from Convocado_Efetivado CE
+	where CE.Código_Período = '2018/1' and CE.Código_PS in(
+		select PS.Código
+		from Processo_Seletivo PS
+		where PS.Código_Edital = '020647')
+	)

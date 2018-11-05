@@ -59,3 +59,9 @@ from Candidato C where C.Código in(
 		from Processo_Seletivo PS
 		where PS.Código_Edital = '020647')
 	)
+--9) Para cada Processo Seletivo em que houve pelo menos um efetivado, recuperar o Código do PS, os Setores e Atividades em que o candidado foi efetivado e o número de candidados efetivados no respectivo PS
+select PS.Código, PS.Setores, PS.Atividades, count(*)
+from Convocado_Efetivado CE, Processo_Seletivo PS
+where PS.Código = CE.Código_PS
+group by PS.Código, PS.Setores, Ps.Atividades
+having count(*) >= 1

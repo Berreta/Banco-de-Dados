@@ -30,10 +30,14 @@ WHERE   C.Código = EC.Código
     and RR.Setores_Edital = 'Departamento de Computação' 
     and RR.Atividades_Edital = 'Tutoria em Microcontroladores'
 
---7) Listar os cód. deinscrição nomes dos candidatos brasileiros do sexo masculino com idade menor que 18 anos. (Esse poderam apresentar problemas futuros por causa do serviço militar obrigatório)
-SELECT Código, Prenome, Sobrenome, Data_Nascimento, Trunc ((SYSDATE - to_date(Br.Data_Nascimento,'dd/mm/yyyy')) /365, 0) as "idade" from Dual
-FROM Candidato C, Brasileiro Br
-WHERE C.Código = Br.Código and Trunc ((SYSDATE - to_date(Br.Data_Nascimento,'dd/mm/yyyy')) /365, 0) as "idade" from Dual, idade < 18
+--7) Listar os códigos de inscrição e nomes dos candidatos brasileiros que passaram para a segunda etapa.
+SELECT Prenome, Sobrenome, BH.Código, E.Número
+FROM Candidato C, Brasileiro_Homem BH, Brasileiro B, Candidato_Realiza_Etapa CRE, Etapa E
+WHERE C.Código = B.Código 
+and BH.Código = B.Código 
+and CRE.Código_Candidato = C.Código 
+and E.Número = 02 
+and CRE.Código_PS = E.Código
 
 --8) Apresentar sobre o edital 020647 os candidatos efetivados alocados no Bloco B no período de 2019/2.
 SELECT C.Código, Prenome, Sobrenome

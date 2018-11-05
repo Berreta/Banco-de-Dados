@@ -15,20 +15,17 @@ WHERE C.Código = Br.Código
 	and TC.Código_Curso = CD.Código_Curso 
 	and Cur.Nome = 'Engenharia de Computação'
 
---6) Listar o nome, CPF/Nro Passaporte, telefone, email, data de início e data de termino do contrato dos tutores que trabalham no Departamento 
---de Computação como tutores de Microcontroladores.
-SELECT Prenome, Sobrenome, CPF, Es.Código, País_Emitente, DDD, DDI, numero, email, Data_Contratação, Data_Término
-FROM   Candidato C, Brasileiro Br, Estrangeiro Es, Telefone_Candidato TC, Convocado_Efetivado CE, Efetivado E,Email_Candidato EC, Relatório_Resultados RR, Processo_Seletivo PS, Edital Ed
-WHERE   C.Código = EC.Código 
-    and C.Código = TC.Código 
-    and C.Código = Br.Código 
-    and C.Código = Es.Código 
-    and CE.Código_PS = PS.Código 
-    and PS.Código_Edital = Ed.Código 
-    and Ed.Código = RR.Código_Edital    
-    and RR.Código_Edital = TC.Código
-    and RR.Setores_Edital = 'Departamento de Computação' 
-    and RR.Atividades_Edital = 'Tutoria em Microcontroladores'
+--6) Listar o nome, CPF/Nro Passaporte, telefone, email, data de início e data de termino do contrato dos tutores que trabalham no setor de Banco de Dados
+--como tutores de Banco de dados.
+SELECT DISTINCT C.Prenome, C.Sobrenome, T.DDI, T.DDD, T.Prefixo, T.Numero, Br.CPF, Es.País_Emitente, Es.Número, Es.Data_Validade, Con.Data_Contratação, Con.Data_Término
+FROM Candidato C, Telefone_Candidato T, Email_Candidato E, Brasileiro Br, Estrangeiro Es, Tutor_Virtual Tu, Convocado_Efetivado Con
+WHERE C.Código = T.Código 
+    and C.Código = E.Código 
+    and (C.Código = Br.Código or C.Código = Es.Código) 
+    and Tu.Setores = 'Banco de Dados' 
+    and Tu.Atividades = 'Tutoria em Banco de dados' 
+    and Con.Código_Convocado =  C.Código  
+
 
 --7) Listar os códigos de inscrição e nomes dos candidatos brasileiros que passaram para a segunda etapa.
 SELECT Prenome, Sobrenome, BH.Código, E.Número
